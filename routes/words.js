@@ -14,12 +14,12 @@ router.get('/get-words', async (req,res)=>{
     }
 })
 
-router.get('/gw',async(req,res,)=>{
-    const words = Word.find()
+router.post('/gw',async(req,res,)=>{
+    const words = await Word.find()
     var arr = [];
     const user = req.body.username
     const tests = []
-    const test = [sat,toefl,ielts,cat]
+    const test = ["sat","toefl","ielts","cat"]
     for (var i of test){
         if(user.i === true){
             tests.push(i)
