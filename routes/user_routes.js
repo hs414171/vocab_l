@@ -21,7 +21,11 @@ router.post('/login', async (req, res)=>{
 
     if(!user){
         res.status(404).send("no such user exists")
-    }else{
+    }
+    else if (!user.verified){
+        res.status(205).send("user not verified")
+    }
+    else{
         const validPass = await bcrypt.compare(req.body.password,user.password)
         if(validPass){
             res.status(200).send("logged in")
