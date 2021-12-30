@@ -13,7 +13,7 @@ const Word = mongoose.Schema({
         type: String,
         required : true
     },
-    assets:{
+    images:{
         type:Array
     },
     sat:{
