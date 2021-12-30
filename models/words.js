@@ -39,4 +39,4 @@ const Word = mongoose.Schema({
 
     
 })
-module.exports = mongoose.model('word', Word);
+module.exports = mongoose.model('words', Word);
