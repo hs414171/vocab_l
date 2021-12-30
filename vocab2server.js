@@ -3,6 +3,7 @@ require('dotenv').config({path: __dirname +'/.env'});
 const express = require('express')
 const mongoose = require('mongoose')
 const user_routes = require('./routes/user_routes')
+const word_routes = require("./routes/words")
 
 // const prod_routes = require('./routes/product_routes')
 
@@ -40,6 +41,7 @@ db.on('error', (error)=>{console.log(error)});
 db.once('open', ()=>{console.log('Connected to Database')});
 app.use(express.json())
 app.use('/api/user',user_routes)
+app.use('/api/words',word_routes);
 
 
 
