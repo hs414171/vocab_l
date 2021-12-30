@@ -129,4 +129,18 @@ router.get('/verification/:token2',async(req,res)=>{
         res.send(e.message);
       }
 })
+
+router.post('/get_details',async(req,res)=>{
+    const query = { username : req.body.username}
+    const users = await User.findOne(query)
+    res.json({
+        "first_name":users.first_n,
+        "last_name":users.last_n,
+        "email":users.email,
+        "cat":users.cat,
+        "sat":users.sat,
+        "toefl":users.toefl,
+        "ielts":users.ielts
+    })
+})
 module.exports = router;
