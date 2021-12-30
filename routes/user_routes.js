@@ -137,7 +137,7 @@ router.get('/verification/:token2',async(req,res)=>{
 router.post('/get_details',async(req,res)=>{
     const query = { username : req.body.username}
     const users = await User.findOne(query)
-    res.json({
+    res.status(201).json({
         "first_name":users.first_n,
         "last_name":users.last_n,
         "email":users.email,
