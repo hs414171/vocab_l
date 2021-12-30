@@ -147,4 +147,84 @@ router.post('/get_details',async(req,res)=>{
         "ielts":users.ielts
     })
 })
+
+router.patch('/updateFirstname',async (req,res)=>{
+    const query = {username:req.body.username}
+    
+    
+    const update_doc = {
+        $set:{
+            
+            "first_n": req.body.first_n
+        }
+    }
+    try{
+        const result = await User.findOneAndUpdate(query,update_doc,{useFindAndModify : false , new:true})
+        res.status(221).json({message:"Updated Succesfully",doc:result})
+    }
+    catch(e){
+        res.status(421).json({message : error.message})
+    }
+})
+router.patch('/updateLastname',async (req,res)=>{
+    const query = {username:req.body.username}
+    
+    
+    const update_doc = {
+        $set:{
+            
+            "last_n": req.body.last_n
+        }
+    }
+    try{
+        const result = await User.findOneAndUpdate(query,update_doc,{useFindAndModify : false , new:true})
+        res.status(221).json({message:"Updated Succesfully",doc:result})
+    }
+    catch(e){
+        res.status(421).json({message : error.message})
+    }
+})
+
+router.patch('/updateEmail',async (req,res)=>{
+    const query = {username:req.body.username}
+    
+    
+    const update_doc = {
+        $set:{
+            
+            "email": req.body.email
+        }
+    }
+    try{
+        const result = await User.findOneAndUpdate(query,update_doc,{useFindAndModify : false , new:true})
+        res.status(221).json({message:"Updated Succesfully",doc:result})
+    }
+    catch(e){
+        res.status(421).json({message : error.message})
+    }
+})
+
+router.patch('/updateTesting',async (req,res)=>{
+    const query = {username:req.body.username}
+    
+    
+    const update_doc = {
+        $set:{
+            "cat" : req.body.cat,
+            "sat" : req.body.sat,
+            "ielts" : req.body.ielts,
+            "toefl" : req.body.toefl
+        }
+    }
+    try{
+        const result = await User.findOneAndUpdate(query,update_doc,{useFindAndModify : false , new:true})
+        res.status(221).json({message:"Updated Succesfully",doc:result})
+    }
+    catch(e){
+        res.status(421).json({message : error.message})
+    }
+})
+
+
+
 module.exports = router;
