@@ -5,13 +5,9 @@ const Word = require('../models/words')
 const User = require('../models/words')
 
 
-router.get('/get-words', async (req,res)=>{
-    try{
-        const wordData =  await Word.find()
-        res.json({wordData})
-    }catch(error){
-        res.status(500)
-    }
+router.get('/getAllWords', async (req, res)=>{
+    const words = await Word.find()
+    res.status(200).json({words: words})
 })
 
 router.post('/gw',async(req,res,)=>{
