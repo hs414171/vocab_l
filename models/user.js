@@ -53,22 +53,26 @@ const User = mongoose.Schema({
         default :false,
         required: false
     },
-    all_w:{
-        type: Boolean,
-        default:true,
-        required: false
-    },
-    free_a:{
-        type: Array,
+    // all_w:{
+    //     type: Boolean,
+    //     default:true,
+    //     required: false
+    // },
+    // free_a:{
+    //     type: Array,
         
-    },
-    free_w:{
-        type: Number,
-        default: 5
-    },
+    // },
+    // free_w:{
+    //     type: Number,
+    //     default: 5
+    // },
     subs:{
         type:Boolean,
         default: false
+    },
+    phone:{
+        type:Number,
+        required: true
     }
 
     
