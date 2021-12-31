@@ -167,6 +167,7 @@ router.patch('/updateFirstname',async (req,res)=>{
         res.status(421).json({message : error.message})
     }
 })
+
 router.patch('/updateLastname',async (req,res)=>{
     const query = {username:req.body.username}
     
@@ -226,6 +227,21 @@ router.patch('/updateTesting',async (req,res)=>{
     }
 })
 
+router.patch('/updateSubscription',async (req,res)=>{
+    const query = {username:req.body.username}
+    const update_doc = {
+        $set:{
+            "subs": true
+        }
+    }
+    try{
+        const result = await User.findOneAndUpdate(query,update_doc,{useFindAndModify : false , new: true})
+        res.status(221).json({message:"Updated Succesfully",doc:result})
+    }
+    catch(e){
+        res.status(421).json({message : error.message})
+    }
+})
 
 
 module.exports = router;
