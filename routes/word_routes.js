@@ -33,17 +33,17 @@ router.post('/gw',async(req,res,)=>{
             }
         }
         if (length===2){
-            if (words.tests[0] && words.tests[1]===true){
+            if (words.tests[0] || words.tests[1]===true){
                 arr.push(word)
             }
         }
         if (length===3){
-            if (words.tests[0] && words.tests[1] && words.tests[2]===true){
+            if (words.tests[0] || words.tests[1] || words.tests[2]===true){
                 arr.push(word)
             }
         }
         if (length===1){
-            if (words.tests[0] && words.tests[1] && words.tests[2] && words.tests[3]===true){
+            if (words.tests[0] || words.tests[1] || words.tests[2] || words.tests[3]===true){
                 arr.push(word)
             }
         }
