@@ -138,6 +138,7 @@ router.post('/get_details',async(req,res)=>{
     const query = { username : req.body.username}
     const users = await User.findOne(query)
     res.status(201).json({
+        "subscribed": users.subs,
         "first_name":users.first_n,
         "last_name":users.last_n,
         "email":users.email,
