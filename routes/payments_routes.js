@@ -39,7 +39,7 @@ router.post('/orders', async (req, res)=>{
     .then(function (response) {
         console.log(JSON.stringify(response.data));
         // SENDING THE RESPONSE OF THE GENERATED ORDER
-        res.json(response.data)
+        res.status(200).json(response.data)
     })
     .catch(function (error) {
         console.log(error);
