@@ -72,7 +72,7 @@ const User = mongoose.Schema({
     },
     phone:{
         type:Number,
-        required: true
+        required: false
     }
 
     
