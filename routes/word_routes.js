@@ -12,7 +12,7 @@ router.get('/getAllWords', async (req, res)=>{
 })
 
 // ROUTE TO GENERATE DATA TO BE USED FOR EVALUATION
-router.get('/getSomeWords', async(req, res)=>{
+router.post('/getSomeWords', async(req, res)=>{
     const words = await Word.find()
     const numWords = req.body.numWords
 
