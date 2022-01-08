@@ -123,7 +123,8 @@ router.get('/verification/:token2',async(req,res)=>{
             }
         }
         const result = await User.findByIdAndUpdate(query,update_doc,{useFindAndModify : false , new:true})
-        res.status(221).json({message:"Verified"})
+        res.status(221)
+        ejs.render('./verified.ejs')
         
 
         

@@ -3,9 +3,9 @@ const nodemailer = require('nodemailer')
 const os = require('os');
 
 var transport = nodemailer.createTransport({    
-    host: "smtpout.secureserver.net",  
+    host: "mail.lltes.com",  
     secure: true,
-    secureConnection: false, 
+    secureConnection: true, 
     
     port: 465,
     
