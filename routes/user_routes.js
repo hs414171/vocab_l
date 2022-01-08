@@ -4,6 +4,8 @@ const router = express.Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const bodyparser = require('body-parser')
+const urlencodedparser = bodyparser.urlencoded({extended:false})
 
 const transportIt = require('../nodemailer')
 router.get('/get-users', async (req,res)=>{
@@ -85,7 +87,8 @@ router.post('/reg_user', async (req, res)=>{
             const token2 = jwt.sign({_id:newUser._id},process.env.EMAIL_SECRET)
             console.log(token2)
             
-            const url = `http://ritchieapi.com/api/user/verification/${token2}`
+            // const url = `http://ritchieapi.com/api/user/verification/${token2}`
+            const url = `http://localhost:3000/api/user/verification/${token2}`
             const options = {
                 from : process.env.EMAIL_ADDRESS,
                 to : req.body.email,
@@ -123,8 +126,8 @@ router.get('/verification/:token2',async(req,res)=>{
             }
         }
         const result = await User.findByIdAndUpdate(query,update_doc,{useFindAndModify : false , new:true})
-        res.status(221)
-        ejs.render('./verified.ejs')
+        res.status(221).render("verified")
+        
         
 
         
@@ -242,6 +245,109 @@ router.patch('/updateSubscription',async (req,res)=>{
         res.status(421).json({message : error.message})
     }
 })
+router.post('/reset_Password',async(req,res)=>{
+    const query = { username : req.body.username}
+    const user = await User.findOne(query)
+    const payload = {
+        id : user.id,
+        email : user.email
+    }
+    const token3 = jwt.sign(payload,process.env.EMAIL_SECRET)
+    console.log(token3)
+            
+    // const url = `http://ritchieapi.com/api/user/resetPassword/${token3}`
+    const url = `http://localhost:3000/api/user/resetPassword/${user.id}/${token3}`
+    const options = {
+        from : process.env.EMAIL_ADDRESS,
+        to : user.email,
+        subject : "Reset Password",
+        html : `
+        Click on the given link to reset your password: <a href = "${url}"> ${url}</a>
+        `
+    }
+    transportIt.sendMail(options,function(error,info){
+        if (error){
+            console.log(error)
+        }
+        else{
+            console.log("Email Sent"+info.response)
+        }
+    })
+
+
+})
+router.get('/resetPassword/:id/:token3',async(req,res)=>{
+    const {id,token3} = req.params
+    const query = {id:id}
+    const user = await User.findOne(query)
+    try{
+    const payload = jwt.verify(token3, process.env.EMAIL_SECRET)
+    res.render('resetPass',{username:user.username})
+    }
+    catch(e){
+        console.log(e.message)
+        res.send(e.message)
+    }
+})
+router.post('/resetPassword/:id/:token3',urlencodedparser,async(req,res)=>{
+   
+    const {id,token3} = req.params
+    const password = req.body.password
+    const password2 = req.body.password2
+    const query = { id : id}
+    try{
+    const payload = jwt.verify(token3, process.env.EMAIL_SECRET)
+    console.log(password,password2)   
+    
+    
+    
+        
+    if (password2 === password){
+        const hashedPassword = await bcrypt.hash(password,10)
+        const update_doc = {
+            $set:{
+                
+                "password": hashedPassword
+            }
+        }
+        const result = await User.findOneAndUpdate(query,update_doc,{useFindAndModify : false , new:true})
+        res.status(221).json({message:"Updated Succesfully",doc:result})
+
+    }
+    else{
+        res.json({message:"no you"})
+    }
+    }
+    catch(e){
+        console.log(e.message)
+        res.send(e.message)
+
+    }
+            
+        
+})
+// router.patch('/updatePassword',async (req,res)=>{
+//     const query = {username:req.body.username}
+//     const hashedPassword = await bcrypt.hash(req.body.password,10)
+    
+//     const update_doc = {
+//         $set:{
+            
+//             "password": hashedPassword
+//         }
+//     }
+//     try{
+//         if (req.body.confirm_password === req.body.password){
+//             const result = await User.findOneAndUpdate(query,update_doc,{useFindAndModify : false , new:true})
+//             res.status(221).json({message:"Updated Succesfully",doc:result})
+
+//         }
+        
+//     }
+//     catch(e){
+//         res.status(421).json({message : error.message})
+//     }
+// })
 
 
 module.exports = router;
